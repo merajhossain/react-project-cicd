@@ -1,0 +1,7 @@
+// Utility classes
+.text-primary { color: var(--primary); }
+.text-muted { color: var(--text-muted); }
+.text-dark { color: var(--text-dark); }
+.font-bold { font-weight: 700; }
+.font-black { font-weight: 800; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
