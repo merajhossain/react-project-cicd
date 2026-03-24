@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Product Management Dashboard
 
 ## Overview
@@ -143,3 +144,7 @@ Open `http://localhost:5173`
 - `EditProductForm` is a shared component used in both the product list page and the detail page
 - No data persistence — frontend only as per spec
 - Reusable skeleton components match actual page layouts for a smooth loading experience
+=======
+# react-project-cicd
+Practice project
+>>>>>>> 017dd19337eab0551f5278f753c38efe32fef276
