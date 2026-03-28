@@ -79,7 +79,7 @@ const EditProductForm: React.FC<EditProductFormProps> = ({ form, onFinish, exist
           <Select
             size="large"
             placeholder="Select category"
-            options={categoryOptions.map((c: CategoryOption) => ({ value: c.slug, label: c.name }))}
+            options={categoryOptions.map((c: CategoryOption): { value: string; label: string } => ({ value: c.slug, label: c.name }))}
           />
         </Form.Item>
       </div>
