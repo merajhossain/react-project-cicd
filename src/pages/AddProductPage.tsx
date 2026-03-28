@@ -18,9 +18,18 @@ const AddProductPage: React.FC = () => {
   const handleSubmit = async (values: Record<string, unknown>) => {
     try {
       const fileList = (values.images as { fileList?: Array<{ url?: string; thumbUrl?: string }> })?.fileList;
+      const images = fileList?.map((f) => f.url || f.thumbUrl).filter((url): url is string => url !== undefined) || [];
+      
       await addProduct({
-        ...values,
-        images: fileList?.map((f) => f.url || f.thumbUrl).filter((url): url is string => url !== undefined) || [],
+        title: values.title as string,
+        description: values.description as string,
+        price: values.price as number,
+        stock: values.stock as number,
+        brand: values.brand as string,
+        category: values.category as string,
+        discountPercentage: values.discountPercentage as number | undefined,
+        sku: values.sku as string | undefined,
+        images,
       });
       form.resetFields();
       setTimeout(() => navigate('/products'), 1500);
