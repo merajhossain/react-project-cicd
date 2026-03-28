@@ -9,7 +9,7 @@ const { Dragger } = Upload;
 
 interface EditProductFormProps {
   form: FormInstance;
-  onFinish: (values: any) => void;
+  onFinish: (values: Record<string, unknown>) => void;
   existingImages?: string[];
 }
 
