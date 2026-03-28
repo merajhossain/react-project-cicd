@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, InputNumber, Select, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import type { FormInstance, UploadFile, UploadProps } from 'antd';
+import type { FormInstance, UploadFile } from 'antd';
 import { useCategories } from '../hooks/useProducts';
 
 const { TextArea } = Input;
