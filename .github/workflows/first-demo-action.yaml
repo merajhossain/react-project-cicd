@@ -1,0 +1,31 @@
+# github action
+name: First Demo Action
+
+on: 
+  push :
+    branches:
+      - main
+
+jobs:
+  demo-job:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "Action Started"
+    - name: Checkout
+      uses: actions/checkout@v5
+    - name: Run a one line script
+      run: echo "Hello, World!"
+    - name: Run a multiline script
+      run : |
+        echo Add other actions to buils,
+        echo test, and deploy yout project.
+    - name: List files
+      run: ls ${{ github.workspace }}
+    - name: Print Github context
+      env: 
+        GITHUB_CONTEXT: ${{ toJson(github)}}
+      run: echo "$GITHUB_CONTEXT"
+    - name: Action Completed
+      run: echo "Action Completed" 
+
+
