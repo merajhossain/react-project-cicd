@@ -20,7 +20,7 @@ const AddProductPage: React.FC = () => {
       const fileList = (values.images as { fileList?: Array<{ url?: string; thumbUrl?: string }> })?.fileList;
       await addProduct({
         ...values,
-        images: fileList?.map((f) => f.url || f.thumbUrl) || [],
+        images: fileList?.map((f) => f.url || f.thumbUrl).filter((url): url is string => url !== undefined) || [],
       });
       form.resetFields();
       setTimeout(() => navigate('/products'), 1500);

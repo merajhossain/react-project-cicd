@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, InputNumber, Select, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import type { FormInstance, UploadFile } from 'antd';
-import type { RcFile } from 'rc-upload/lib/interface';
+import type { FormInstance, UploadFile, UploadProps } from 'antd';
 import { useCategories } from '../hooks/useProducts';
 
 const { TextArea } = Input;
@@ -160,7 +159,7 @@ const EditProductForm: React.FC<EditProductFormProps> = ({ form, onFinish, exist
         <Dragger
           multiple
           listType="picture"
-          beforeUpload={(file: RcFile) => {
+          beforeUpload={(file) => {
             const isImage = file.type.startsWith('image/');
             const isUnder5MB = file.size / 1024 / 1024 < 5;
             if (!isImage) {
