@@ -28,7 +28,6 @@ const AddProductPage: React.FC = () => {
         brand: values.brand as string,
         category: values.category as string,
         discountPercentage: values.discountPercentage as number | undefined,
-        sku: values.sku as string | undefined,
         images,
       });
       form.resetFields();
