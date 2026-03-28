@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, InputNumber, Select, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import type { FormInstance, UploadFile } from 'antd';
+import type { FormInstance, UploadFile, RcFile } from 'antd';
 import { useCategories } from '../hooks/useProducts';
 
 const { TextArea } = Input;
@@ -11,6 +11,11 @@ interface EditProductFormProps {
   form: FormInstance;
   onFinish: (values: Record<string, unknown>) => void;
   existingImages?: string[];
+}
+
+interface CategoryOption {
+  slug: string;
+  name: string;
 }
 
 const EditProductForm: React.FC<EditProductFormProps> = ({ form, onFinish, existingImages = [] }) => {
@@ -29,7 +34,7 @@ const EditProductForm: React.FC<EditProductFormProps> = ({ form, onFinish, exist
   }, [existingImages]);
 
   return (
-    <Form form={form} layout="vertical" onFinish={onFinish} requiredMark="optional" scrollToFirstError>
+    <Form form={form} layout="vertical" onFinish={onFinish} requiredMark="optional" scrollToFirstError >
 
       {/* Title */}
       <Form.Item
@@ -41,8 +46,8 @@ const EditProductForm: React.FC<EditProductFormProps> = ({ form, onFinish, exist
           { min: 3, message: 'At least 3 characters' },
           { max: 100, message: 'Max 100 characters' },
           {
-            validator: (_, value) =>
-              value && /[a-zA-Z]/.test(value)
+            validator: (_rule, value: unknown) =>
+              value && typeof value === 'string' && /[a-zA-Z]/.test(value)
                 ? Promise.resolve()
                 : Promise.reject('Title must contain letters'),
           },
@@ -74,7 +79,7 @@ const EditProductForm: React.FC<EditProductFormProps> = ({ form, onFinish, exist
           <Select
             size="large"
             placeholder="Select category"
-            options={categoryOptions.map((c) => ({ value: c.slug, label: c.name }))}
+            options={categoryOptions.map((c: CategoryOption) => ({ value: c.slug, label: c.name }))}
           />
         </Form.Item>
       </div>
@@ -103,8 +108,8 @@ const EditProductForm: React.FC<EditProductFormProps> = ({ form, onFinish, exist
             { type: 'number', min: 0.01, message: 'Must be > $0' },
             { type: 'number', max: 99999, message: 'Max $99,999' },
             {
-              validator: (_, value) =>
-                value !== undefined && value !== null && !isNaN(value)
+              validator: (_rule, value: unknown) =>
+                value !== undefined && value !== null && typeof value === 'number' && !isNaN(value)
                   ? Promise.resolve()
                   : Promise.reject('Enter a valid price'),
             },
@@ -121,8 +126,8 @@ const EditProductForm: React.FC<EditProductFormProps> = ({ form, onFinish, exist
             { type: 'number', min: 0, message: 'Cannot be negative' },
             { type: 'number', max: 10000, message: 'Max 10,000' },
             {
-              validator: (_, value) =>
-                Number.isInteger(value)
+              validator: (_rule, value: unknown) =>
+                typeof value === 'number' && Number.isInteger(value)
                   ? Promise.resolve()
                   : Promise.reject('Stock must be a whole number'),
             },
@@ -138,9 +143,9 @@ const EditProductForm: React.FC<EditProductFormProps> = ({ form, onFinish, exist
             { type: 'number', min: 0, message: 'Cannot be negative' },
             { type: 'number', max: 90, message: 'Max 90%' },
             {
-              validator: (_, value) => {
+              validator: (_rule, value: unknown) => {
                 if (value === undefined || value === null) return Promise.resolve();
-                const decimals = (value.toString().split('.')[1] || '').length;
+                const decimals = (String(value).split('.')[1] || '').length;
                 return decimals <= 2
                   ? Promise.resolve()
                   : Promise.reject('Max 2 decimal places');
@@ -157,7 +162,7 @@ const EditProductForm: React.FC<EditProductFormProps> = ({ form, onFinish, exist
         <Dragger
           multiple
           listType="picture"
-          beforeUpload={(file) => {
+          beforeUpload={(file: RcFile) => {
             const isImage = file.type.startsWith('image/');
             const isUnder5MB = file.size / 1024 / 1024 < 5;
             if (!isImage) {
@@ -172,7 +177,7 @@ const EditProductForm: React.FC<EditProductFormProps> = ({ form, onFinish, exist
           }}
           accept="image/*"
           fileList={fileList}
-          onChange={({ fileList: updated }) => setFileList(updated)}
+          onChange={({ fileList: updated }: { fileList: UploadFile[] }) => setFileList(updated)}
         >
           <p className="ant-upload-drag-icon">
             <InboxOutlined style={{ fontSize: 40, color: '#6366f1' }} />
