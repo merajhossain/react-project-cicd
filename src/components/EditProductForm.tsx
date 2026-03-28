@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Form, Input, InputNumber, Select, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import type { FormInstance, UploadFile, RcFile } from 'antd';
+import type { FormInstance, UploadFile } from 'antd';
+import type { RcFile } from 'rc-upload/lib/interface';
 import { useCategories } from '../hooks/useProducts';
 
 const { TextArea } = Input;
@@ -20,18 +21,15 @@ interface CategoryOption {
 
 const EditProductForm: React.FC<EditProductFormProps> = ({ form, onFinish, existingImages = [] }) => {
   const { categoryOptions } = useCategories();
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-
-  useEffect(() => {
-    const converted: UploadFile[] = existingImages.map((url, index) => ({
+  const [fileList, setFileList] = useState<UploadFile[]>(() =>
+    existingImages.map((url, index) => ({
       uid: `existing-${index}`,
       name: `image-${index + 1}.jpg`,
-      status: 'done',
+      status: 'done' as const,
       url,
       thumbUrl: url,
-    }));
-    setFileList(converted);
-  }, [existingImages]);
+    }))
+  );
 
   return (
     <Form form={form} layout="vertical" onFinish={onFinish} requiredMark="optional" scrollToFirstError >
