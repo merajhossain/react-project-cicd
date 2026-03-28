@@ -15,16 +15,17 @@ const AddProductPage: React.FC = () => {
   const { addProduct, isLoading } = useAddProduct();
   const { categories } = useCategories();
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: Record<string, unknown>) => {
     try {
+      const fileList = (values.images as { fileList?: Array<{ url?: string; thumbUrl?: string }> })?.fileList;
       await addProduct({
         ...values,
-        images: values.images?.fileList?.map((f: any) => f.url || f.thumbUrl) || [],
+        images: fileList?.map((f) => f.url || f.thumbUrl) || [],
       });
       form.resetFields();
       setTimeout(() => navigate('/products'), 1500);
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
     }
   };
 

@@ -29,7 +29,7 @@ const ProductDetailPage: React.FC = () => {
     setDrawerOpen(true);
   };
 
-  const handleEditSubmit = (values: any) => {
+  const handleEditSubmit = (values: Record<string, unknown>) => {
     console.log('Updated values:', values);
     setDrawerOpen(false);
     form.resetFields();

@@ -42,7 +42,7 @@ const ProductsPage: React.FC = () => {
     setDrawerOpen(true);
   };
 
-  const handleEditSubmit = (values: any) => {
+  const handleEditSubmit = (values: Record<string, unknown>) => {
     console.log('Edited product:', { id: editingProduct?.id, ...values });
     setDrawerOpen(false);
     form.resetFields();
@@ -55,8 +55,8 @@ const ProductsPage: React.FC = () => {
       dataIndex: 'thumbnail',
       key: 'thumbnail',
       width: 70,
-      render: (thumbnail: string, record: Product) => (
-        <img src={thumbnail} alt={record.title} className="product-thumb" />
+      render: (thumbnail: string) => (
+        <img src={thumbnail} alt="product" className="product-thumb" />
       ),
     },
     {
@@ -124,7 +124,7 @@ const ProductsPage: React.FC = () => {
       title: 'Actions',
       key: 'actions',
       width: 140,
-      render: (_, record: Product) => (
+      render: (_: unknown, record: Product) => (
         <div className="table-actions">
           <Button
             type="text"
